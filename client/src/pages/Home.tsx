@@ -7,15 +7,16 @@ import LoadingAnalysis from "@/components/LoadingAnalysis";
 import ResultsDisplay from "@/components/ResultsDisplay";
 import Header from "@/components/Header";
 import { questions } from "@/data/questions";
-import { personalities } from "@/data/personalities";
 import type { Answer } from "@/data/questions";
 import type { Personality } from "@/data/personalities";
+import { apiRequest } from "@/lib/queryClient";
 
 type Stage = "welcome" | "intake" | "assessment" | "analyzing" | "results";
 
 export default function Home() {
   const [stage, setStage] = useState<Stage>("welcome");
   const [userData, setUserData] = useState<IntakeFormData | null>(null);
+  const [assessmentId, setAssessmentId] = useState<string | null>(null);
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const [result, setResult] = useState<{
@@ -32,9 +33,23 @@ export default function Home() {
     setStage("intake");
   };
 
-  const handleIntakeSubmit = (data: IntakeFormData) => {
-    setUserData(data);
-    setStage("assessment");
+  const handleIntakeSubmit = async (data: IntakeFormData) => {
+    try {
+      // Create assessment in database - convert age to number
+      const assessmentData = {
+        ...data,
+        age: parseInt(data.age, 10)
+      };
+      const res = await apiRequest("POST", "/api/assessments", assessmentData);
+      const assessment = await res.json() as { id: string };
+
+      setAssessmentId(assessment.id);
+      setUserData(data);
+      setStage("assessment");
+    } catch (error) {
+      console.error("Error creating assessment:", error);
+      alert("Failed to start assessment. Please try again.");
+    }
   };
 
   const handleAnswer = (answer: Answer) => {
@@ -45,14 +60,43 @@ export default function Home() {
     if (currentQuestion < questions.length - 1) {
       setCurrentQuestion(currentQuestion + 1);
     } else {
-      // Assessment complete
-      setStage("analyzing");
-      // Simulate AI analysis
-      setTimeout(() => {
-        const calculatedResult = calculatePersonality(newAnswers);
-        setResult(calculatedResult);
-        setStage("results");
-      }, 3000);
+      // Assessment complete - save and analyze
+      submitAssessment(newAnswers);
+    }
+  };
+
+  const submitAssessment = async (userAnswers: Answer[]) => {
+    if (!assessmentId) return;
+
+    setStage("analyzing");
+
+    try {
+      // Save responses
+      await apiRequest("POST", `/api/assessments/${assessmentId}/responses`, { responses: userAnswers });
+
+      // Trigger AI analysis
+      const analysisRes = await apiRequest("POST", `/api/assessments/${assessmentId}/analyze`);
+      const analysisResult = await analysisRes.json() as {
+        result: any;
+        personality: Personality;
+        traitScores: {
+          Dominance: number;
+          Influence: number;
+          Steadiness: number;
+          Conscientiousness: number;
+        };
+      };
+
+      setResult({
+        personality: analysisResult.personality,
+        traitScores: analysisResult.traitScores,
+      });
+
+      setStage("results");
+    } catch (error) {
+      console.error("Error submitting assessment:", error);
+      alert("Failed to analyze assessment. Please try again.");
+      setStage("assessment");
     }
   };
 
@@ -60,79 +104,6 @@ export default function Home() {
     if (currentQuestion > 0) {
       setCurrentQuestion(currentQuestion - 1);
     }
-  };
-
-  const calculatePersonality = (userAnswers: Answer[]): {
-    personality: Personality;
-    traitScores: {
-      Dominance: number;
-      Influence: number;
-      Steadiness: number;
-      Conscientiousness: number;
-    };
-  } => {
-    // Calculate trait scores
-    const traitTotals: Record<string, { total: number; count: number }> = {
-      Dominance: { total: 0, count: 0 },
-      Influence: { total: 0, count: 0 },
-      Steadiness: { total: 0, count: 0 },
-      Conscientiousness: { total: 0, count: 0 }
-    };
-
-    userAnswers.forEach(answer => {
-      if (answer.trait === "Dominance" || answer.trait === "Influence" || 
-          answer.trait === "Steadiness" || answer.trait === "Conscientiousness") {
-        traitTotals[answer.trait].total += answer.score;
-        traitTotals[answer.trait].count += 1;
-      }
-    });
-
-    // Calculate percentages
-    const traitScores = {
-      Dominance: traitTotals.Dominance.count > 0 
-        ? Math.round((traitTotals.Dominance.total / (traitTotals.Dominance.count * 3)) * 100)
-        : 0,
-      Influence: traitTotals.Influence.count > 0
-        ? Math.round((traitTotals.Influence.total / (traitTotals.Influence.count * 3)) * 100)
-        : 0,
-      Steadiness: traitTotals.Steadiness.count > 0
-        ? Math.round((traitTotals.Steadiness.total / (traitTotals.Steadiness.count * 3)) * 100)
-        : 0,
-      Conscientiousness: traitTotals.Conscientiousness.count > 0
-        ? Math.round((traitTotals.Conscientiousness.total / (traitTotals.Conscientiousness.count * 3)) * 100)
-        : 0
-    };
-
-    // Determine personality type based on scores
-    const sortedTraits = Object.entries(traitScores)
-      .sort(([, a], [, b]) => b - a)
-      .map(([trait]) => trait[0]); // Get first letter
-
-    let personalityKey = "";
-    
-    // Check if top two scores are significantly higher than others
-    const scores = Object.values(traitScores).sort((a, b) => b - a);
-    const topScore = scores[0];
-    const secondScore = scores[1];
-    
-    if (topScore >= 60 && secondScore >= 55 && (topScore - secondScore) < 20) {
-      // Two-trait combination
-      personalityKey = sortedTraits.slice(0, 2).join("");
-    } else if (topScore >= 60) {
-      // Single dominant trait
-      personalityKey = sortedTraits[0];
-    } else {
-      // Default to highest score
-      personalityKey = sortedTraits[0];
-    }
-
-    // Ensure the personality key exists
-    const personality = personalities[personalityKey] || personalities.D;
-
-    return {
-      personality,
-      traitScores
-    };
   };
 
   return (
