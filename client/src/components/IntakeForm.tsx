@@ -15,6 +15,7 @@ export interface IntakeFormData {
   email: string;
   age: string;
   jobInterest: string;
+  roleLevel: string;
   consentAI: boolean;
   consentMarketing: boolean;
 }
@@ -25,6 +26,7 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
     email: "",
     age: "",
     jobInterest: "",
+    roleLevel: "",
     consentAI: false,
     consentMarketing: false,
   });
@@ -41,6 +43,7 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
     formData.email && 
     formData.age && 
     formData.jobInterest && 
+    formData.roleLevel && 
     formData.consentAI && 
     formData.consentMarketing;
 
@@ -114,6 +117,27 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
                   <SelectItem value="support">Support & Service</SelectItem>
                   <SelectItem value="analytical">Analytical & Research</SelectItem>
                   <SelectItem value="entrepreneurial">Entrepreneurial & Business</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="roleLevel" className="text-base">Role Level Interested In</Label>
+              <Select
+                value={formData.roleLevel}
+                onValueChange={(value) => setFormData({ ...formData, roleLevel: value })}
+                required
+              >
+                <SelectTrigger id="roleLevel" data-testid="select-role-level" className="h-12">
+                  <SelectValue placeholder="Select a role level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="entry-level">Entry-Level</SelectItem>
+                  <SelectItem value="mid-level">Mid-Level</SelectItem>
+                  <SelectItem value="senior-level">Senior-Level</SelectItem>
+                  <SelectItem value="supervisor-manager">Supervisor/Manager</SelectItem>
+                  <SelectItem value="director">Director</SelectItem>
+                  <SelectItem value="executive">Executive</SelectItem>
                 </SelectContent>
               </Select>
             </div>
