@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@assets/generated_images/Black_young_professionals_workplace_d9888eca.png";
-import logoImage from "@assets/CF-LOGO_1761334783440.png";
+import logoImage from "@assets/CF-LOGO_1761340988658.png";
 
 interface WelcomeHeroProps {
   onGetStarted: () => void;
