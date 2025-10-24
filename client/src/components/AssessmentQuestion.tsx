@@ -4,29 +4,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-
-export interface Question {
-  id: number;
-  text: string;
-  category: string;
-}
+import type { Question, Answer } from "@/data/questions";
 
 interface AssessmentQuestionProps {
   question: Question;
   questionNumber: number;
   totalQuestions: number;
-  onAnswer: (answer: number) => void;
+  onAnswer: (answer: Answer) => void;
   onPrevious?: () => void;
-  selectedAnswer?: number;
+  selectedAnswer?: Answer;
 }
-
-const answerOptions = [
-  { value: 5, label: "Definitely me" },
-  { value: 4, label: "Somewhat me" },
-  { value: 3, label: "Neutral" },
-  { value: 2, label: "Somewhat not me" },
-  { value: 1, label: "Definitely not" },
-];
 
 export default function AssessmentQuestion({
   question,
@@ -36,10 +23,10 @@ export default function AssessmentQuestion({
   onPrevious,
   selectedAnswer,
 }: AssessmentQuestionProps) {
-  const [answer, setAnswer] = useState<number | undefined>(selectedAnswer);
+  const [answer, setAnswer] = useState<Answer | undefined>(selectedAnswer);
 
   const handleNext = () => {
-    if (answer !== undefined) {
+    if (answer) {
       onAnswer(answer);
     }
   };
@@ -55,30 +42,33 @@ export default function AssessmentQuestion({
           </div>
 
           <h2 className="text-2xl sm:text-3xl font-semibold mb-8 leading-relaxed">
-            {question.text}
+            {question.question}
           </h2>
 
           <RadioGroup
-            value={answer?.toString()}
-            onValueChange={(value) => setAnswer(parseInt(value))}
+            value={answer?.id.toString()}
+            onValueChange={(value) => {
+              const selectedAnswer = question.answers.find(a => a.id.toString() === value);
+              setAnswer(selectedAnswer);
+            }}
             className="space-y-3"
           >
-            {answerOptions.map((option) => (
+            {question.answers.map((option) => (
               <div
-                key={option.value}
+                key={option.id}
                 className="flex items-center space-x-3 p-4 rounded-lg border hover-elevate active-elevate-2 cursor-pointer"
-                onClick={() => setAnswer(option.value)}
+                onClick={() => setAnswer(option)}
               >
                 <RadioGroupItem
-                  value={option.value.toString()}
-                  id={`option-${option.value}`}
-                  data-testid={`radio-option-${option.value}`}
+                  value={option.id.toString()}
+                  id={`option-${option.id}`}
+                  data-testid={`radio-option-${option.id}`}
                 />
                 <Label
-                  htmlFor={`option-${option.value}`}
+                  htmlFor={`option-${option.id}`}
                   className="text-base font-medium cursor-pointer flex-1"
                 >
-                  {option.label}
+                  {option.text}
                 </Label>
               </div>
             ))}

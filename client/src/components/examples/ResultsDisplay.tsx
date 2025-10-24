@@ -1,37 +1,19 @@
 import ResultsDisplay from '../ResultsDisplay';
+import { personalities } from '@/data/personalities';
 
 export default function ResultsDisplayExample() {
-  const mockResult = {
-    personalityType: "DI",
-    personalityTitle: "The Dynamic Innovator",
-    description: "You combine assertiveness with sociability to lead and inspire change. Your natural ability to take initiative while building strong relationships makes you an effective catalyst for innovation and team success.",
-    traits: ["Assertive", "Sociable", "Creative", "Energetic", "Persuasive"],
-    scores: {
-      dominance: 85,
-      influence: 78,
-      steadiness: 45,
-      conscientiousness: 52
-    },
-    compatibleRoles: [
-      "Creative Director",
-      "Product Manager",
-      "Marketing Strategist",
-      "Business Development Manager",
-      "Innovation Consultant"
-    ],
-    compatibleCompanies: [
-      "Tech startups and innovative companies",
-      "Creative agencies",
-      "Fast-growing technology companies",
-      "Companies with strong R&D departments",
-      "Organizations embracing digital transformation"
-    ]
+  const mockTraitScores = {
+    Dominance: 85,
+    Influence: 78,
+    Steadiness: 45,
+    Conscientiousness: 52
   };
 
   return (
     <ResultsDisplay
-      result={mockResult}
+      personality={personalities.DI}
       userName="Alex"
+      traitScores={mockTraitScores}
       onDownloadReport={() => console.log('Download report clicked')}
     />
   );
