@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@assets/generated_images/Professional_workplace_hero_image_57fade64.png";
+import heroImage from "@assets/generated_images/Black_young_professionals_workplace_d9888eca.png";
 
 interface WelcomeHeroProps {
   onGetStarted: () => void;
