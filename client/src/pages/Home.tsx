@@ -140,7 +140,6 @@ export default function Home() {
         <ResultsDisplay
           personality={result.personality}
           userName={userData.name}
-          assessmentId={assessmentId || undefined}
           traitScores={result.traitScores}
           onDownloadReport={() => console.log("Download report")}
         />

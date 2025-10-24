@@ -1,23 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Briefcase, Building2, Award, Download, ExternalLink } from "lucide-react";
+import { Briefcase, Building2, Award, Download } from "lucide-react";
 import type { Personality } from "@/data/personalities";
-import { useQuery } from "@tanstack/react-query";
-
-interface GetroJob {
-  id: string;
-  title: string;
-  company_name?: string;
-  location?: string;
-  employment_type?: string;
-  url?: string;
-}
 
 interface ResultsDisplayProps {
   personality: Personality;
   userName: string;
-  assessmentId?: string;
   traitScores: {
     Dominance: number;
     Influence: number;
@@ -27,13 +16,7 @@ interface ResultsDisplayProps {
   onDownloadReport?: () => void;
 }
 
-export default function ResultsDisplay({ personality, userName, assessmentId, traitScores, onDownloadReport }: ResultsDisplayProps) {
-  const { data: jobsData } = useQuery<{ jobs: GetroJob[]; message?: string }>({
-    queryKey: ["/api/assessments", assessmentId, "jobs"],
-    enabled: !!assessmentId,
-  });
-
-  const jobs = jobsData?.jobs || [];
+export default function ResultsDisplay({ personality, userName, traitScores, onDownloadReport }: ResultsDisplayProps) {
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -181,64 +164,6 @@ export default function ResultsDisplay({ personality, userName, assessmentId, tr
             <p className="text-base leading-relaxed">{personality.professionalCharacteristics}</p>
           </CardContent>
         </Card>
-
-        {jobs.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Briefcase className="w-5 h-5" />
-                Matching Job Opportunities
-              </CardTitle>
-              <CardDescription>
-                Curated job openings that align with your personality profile
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {jobs.map((job) => (
-                  <div
-                    key={job.id}
-                    className="p-4 rounded-lg border hover-elevate active-elevate-2 transition-colors"
-                    data-testid={`job-card-${job.id}`}
-                  >
-                    <div className="flex items-start justify-between gap-4">
-                      <div className="flex-1 space-y-2">
-                        <h4 className="font-semibold text-lg">{job.title}</h4>
-                        {job.company_name && (
-                          <p className="text-muted-foreground flex items-center gap-2">
-                            <Building2 className="w-4 h-4" />
-                            {job.company_name}
-                          </p>
-                        )}
-                        <div className="flex flex-wrap gap-2">
-                          {job.location && (
-                            <Badge variant="secondary">{job.location}</Badge>
-                          )}
-                          {job.employment_type && (
-                            <Badge variant="secondary">{job.employment_type}</Badge>
-                          )}
-                        </div>
-                      </div>
-                      {job.url && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          asChild
-                          data-testid={`button-apply-job-${job.id}`}
-                        >
-                          <a href={job.url} target="_blank" rel="noopener noreferrer" className="gap-2">
-                            View Job
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        </Button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-        )}
 
         {onDownloadReport && (
           <div className="flex justify-center">

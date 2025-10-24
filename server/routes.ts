@@ -220,56 +220,6 @@ Provide 2-3 paragraphs of personalized career guidance and insights for ${assess
     }
   });
 
-  // Get matching jobs from Getro
-  app.get("/api/assessments/:id/jobs", async (req, res) => {
-    try {
-      const { id } = req.params;
-      
-      const assessment = await storage.getAssessment(id);
-      const result = await storage.getAssessmentResult(id);
-
-      if (!assessment || !result) {
-        return res.status(404).json({ error: "Assessment not found" });
-      }
-
-      // Check if Getro API credentials are configured
-      if (!process.env.GETRO_API_KEY || !process.env.GETRO_NETWORK_ID) {
-        console.warn("Getro API credentials not configured");
-        return res.json({ jobs: [], message: "Job matching service not configured" });
-      }
-
-      // Call Getro API
-      const getroResponse = await fetch(
-        `https://api.getro.com/v2/networks/${process.env.GETRO_NETWORK_ID}/jobs/search?page=1&per_page=20`,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
-            "Authorization": `Bearer ${process.env.GETRO_API_KEY}`
-          }
-        }
-      );
-
-      if (!getroResponse.ok) {
-        throw new Error(`Getro API error: ${getroResponse.statusText}`);
-      }
-
-      const jobs = await getroResponse.json();
-      
-      // Filter jobs based on personality and preferences
-      // This is a simple filter - you can enhance this logic
-      const filteredJobs = jobs.filter((job: any) => {
-        // Match based on job interest and role level if available
-        return true; // Return all for now, can add filtering logic
-      });
-
-      res.json({ jobs: filteredJobs.slice(0, 10) }); // Return top 10
-    } catch (error) {
-      console.error("Error fetching Getro jobs:", error);
-      res.json({ jobs: [], error: "Unable to fetch jobs at this time" });
-    }
-  });
-
   const httpServer = createServer(app);
   return httpServer;
 }
