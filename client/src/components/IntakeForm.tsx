@@ -14,6 +14,7 @@ export interface IntakeFormData {
   name: string;
   email: string;
   age: string;
+  educationLevel: string;
   jobInterest: string;
   roleLevel: string;
   consentAI: boolean;
@@ -25,6 +26,7 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
     name: "",
     email: "",
     age: "",
+    educationLevel: "",
     jobInterest: "",
     roleLevel: "",
     consentAI: false,
@@ -42,6 +44,7 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
     formData.name && 
     formData.email && 
     formData.age && 
+    formData.educationLevel && 
     formData.jobInterest && 
     formData.roleLevel && 
     formData.consentAI && 
@@ -98,6 +101,26 @@ export default function IntakeForm({ onSubmit }: IntakeFormProps) {
                 data-testid="input-age"
                 className="h-12"
               />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="educationLevel" className="text-base">Education Level</Label>
+              <Select
+                value={formData.educationLevel}
+                onValueChange={(value) => setFormData({ ...formData, educationLevel: value })}
+                required
+              >
+                <SelectTrigger id="educationLevel" data-testid="select-education-level" className="h-12">
+                  <SelectValue placeholder="Select your education level" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="high-school">High School</SelectItem>
+                  <SelectItem value="associates">Associate's Degree</SelectItem>
+                  <SelectItem value="bachelors">Bachelor's Degree</SelectItem>
+                  <SelectItem value="masters">Master's Degree</SelectItem>
+                  <SelectItem value="phd">PhD</SelectItem>
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">

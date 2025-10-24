@@ -116,6 +116,41 @@ export default function Home() {
     const maxWidth = pageWidth - 2 * margin;
     let yPosition = 20;
 
+    // Filter jobs based on role level (same logic as ResultsDisplay)
+    const filterJobsByRoleLevel = (jobs: string[], roleLevel: string): string[] => {
+      const level = roleLevel.toLowerCase();
+      
+      if (level === 'entry-level') {
+        return jobs.filter(job => {
+          const jobLower = job.toLowerCase();
+          if (jobLower.includes('ceo') || jobLower.includes('vp') || jobLower.includes('executive') || jobLower.includes('chief')) return false;
+          if (jobLower.includes('director')) return false;
+          if (jobLower.includes('manager')) return false;
+          if (jobLower.includes('senior')) return false;
+          if (jobLower.includes('lead')) return false;
+          if (jobLower.includes('principal')) return false;
+          if (jobLower.includes('consultant') && !jobLower.includes('associate')) return false;
+          return true;
+        });
+      } else if (level === 'mid-level') {
+        return jobs.filter(job => {
+          const jobLower = job.toLowerCase();
+          if (jobLower.includes('ceo') || jobLower.includes('chief') || jobLower.includes('executive')) return false;
+          if (jobLower.includes('director')) return false;
+          return true;
+        });
+      } else if (level === 'senior-level' || level === 'supervisor-manager') {
+        return jobs.filter(job => {
+          const jobLower = job.toLowerCase();
+          return !jobLower.includes('ceo') && !jobLower.includes('chief');
+        });
+      }
+      
+      return jobs;
+    };
+
+    const filteredJobs = filterJobsByRoleLevel(result.personality.recommendedJobs, userData.roleLevel);
+
     // Helper function to add text with word wrapping
     const addText = (text: string, fontSize: number = 11, isBold: boolean = false) => {
       doc.setFontSize(fontSize);
@@ -191,15 +226,19 @@ export default function Home() {
     });
     yPosition += 5;
 
-    // Recommended Career Paths
+    // Recommended Career Paths (filtered by role level)
     if (yPosition > 240) {
       doc.addPage();
       yPosition = 20;
     }
     addText("Recommended Career Paths:", 12, true);
-    result.personality.recommendedJobs.forEach((job: string) => {
-      addText(`• ${job}`, 11);
-    });
+    if (filteredJobs.length > 0) {
+      filteredJobs.forEach((job: string) => {
+        addText(`• ${job}`, 11);
+      });
+    } else {
+      addText("See AI analysis for personalized recommendations based on your experience level.", 11);
+    }
     yPosition += 5;
 
     // Company Culture
@@ -272,6 +311,7 @@ export default function Home() {
         <ResultsDisplay
           personality={result.personality}
           userName={userData.name}
+          roleLevel={userData.roleLevel}
           traitScores={result.traitScores}
           onDownloadReport={handleDownloadReport}
         />

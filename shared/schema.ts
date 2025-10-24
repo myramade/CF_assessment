@@ -9,6 +9,7 @@ export const assessments = pgTable("assessments", {
   name: text("name").notNull(),
   email: text("email").notNull(),
   age: integer("age").notNull(),
+  educationLevel: text("education_level").notNull(),
   jobInterest: text("job_interest").notNull(),
   roleLevel: text("role_level").notNull(),
   consentAI: boolean("consent_ai").notNull().default(false),

@@ -7,6 +7,7 @@ import type { Personality } from "@/data/personalities";
 interface ResultsDisplayProps {
   personality: Personality;
   userName: string;
+  roleLevel?: string;
   traitScores: {
     Dominance: number;
     Influence: number;
@@ -16,7 +17,66 @@ interface ResultsDisplayProps {
   onDownloadReport?: () => void;
 }
 
-export default function ResultsDisplay({ personality, userName, traitScores, onDownloadReport }: ResultsDisplayProps) {
+export default function ResultsDisplay({ personality, userName, roleLevel, traitScores, onDownloadReport }: ResultsDisplayProps) {
+  // Filter jobs based on role level to show age-appropriate recommendations
+  const filterJobsByRoleLevel = (jobs: string[]): string[] => {
+    const executiveRoles = ['CEO', 'Executive', 'VP', 'Chief'];
+    const directorRoles = ['Director'];
+    const seniorRoles = ['Senior', 'Lead', 'Principal'];
+    const managerRoles = ['Manager'];
+    
+    if (!roleLevel) return jobs;
+    
+    const level = roleLevel.toLowerCase();
+    
+    if (level === 'entry-level') {
+      // Entry level: exclude executive, director, manager, and senior roles
+      return jobs.filter(job => {
+        const jobLower = job.toLowerCase();
+        
+        // First check for exclusions - if any of these are present, exclude the job
+        if (executiveRoles.some(role => jobLower.includes(role.toLowerCase()))) return false;
+        if (directorRoles.some(role => jobLower.includes(role.toLowerCase()))) return false;
+        if (jobLower.includes('ceo')) return false;
+        if (jobLower.includes('vp')) return false;
+        if (jobLower.includes('manager')) return false; // Exclude ANY manager role
+        if (jobLower.includes('senior')) return false; // Exclude ANY senior role
+        if (jobLower.includes('lead')) return false; // Exclude ANY lead role
+        if (jobLower.includes('principal')) return false; // Exclude ANY principal role
+        if (jobLower.includes('consultant') && !jobLower.includes('associate')) return false; // Exclude consultant unless it's associate consultant
+        
+        // If none of the exclusions matched, include the job
+        return true;
+      });
+    } else if (level === 'mid-level') {
+      // Mid level: exclude executive and director roles
+      return jobs.filter(job => {
+        const jobLower = job.toLowerCase();
+        if (executiveRoles.some(role => jobLower.includes(role.toLowerCase()))) return false;
+        if (directorRoles.some(role => jobLower.includes(role.toLowerCase()))) return false;
+        if (jobLower.includes('ceo')) return false;
+        if (jobLower.includes('chief')) return false;
+        return true;
+      });
+    } else if (level === 'senior-level') {
+      // Senior level: exclude CEO and executive roles
+      return jobs.filter(job => {
+        const jobLower = job.toLowerCase();
+        return !jobLower.includes('ceo') && !jobLower.includes('chief');
+      });
+    } else if (level === 'supervisor-manager') {
+      // Supervisor/Manager: exclude CEO and executive roles
+      return jobs.filter(job => {
+        const jobLower = job.toLowerCase();
+        return !jobLower.includes('ceo') && !jobLower.includes('chief');
+      });
+    }
+    
+    // Director and Executive levels: show all jobs
+    return jobs;
+  };
+
+  const filteredJobs = filterJobsByRoleLevel(personality.recommendedJobs);
 
   return (
     <div className="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
@@ -130,12 +190,18 @@ export default function ResultsDisplay({ personality, userName, traitScores, onD
             </CardHeader>
             <CardContent>
               <ul className="space-y-3">
-                {personality.recommendedJobs.map((job, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
-                    <span className="text-base">{job}</span>
+                {filteredJobs.length > 0 ? (
+                  filteredJobs.map((job, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-primary mt-2 flex-shrink-0" />
+                      <span className="text-base">{job}</span>
+                    </li>
+                  ))
+                ) : (
+                  <li className="text-muted-foreground text-sm">
+                    Refer to your AI analysis for personalized career recommendations based on your experience level.
                   </li>
-                ))}
+                )}
               </ul>
             </CardContent>
           </Card>

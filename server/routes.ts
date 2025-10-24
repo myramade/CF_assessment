@@ -115,20 +115,35 @@ export async function registerRoutes(app: Express): Promise<Server> {
 
       // Determine personality type
       const sortedTraits = Object.entries(traitScores)
-        .sort(([, a], [, b]) => b - a)
-        .map(([trait]) => trait[0]);
+        .sort(([, a], [, b]) => b - a);
 
       const scores = Object.values(traitScores).sort((a, b) => b - a);
       const topScore = scores[0];
       const secondScore = scores[1];
       
       let personalityKey = "";
+      
+      // Determine if it's a two-trait combination or single trait
       if (topScore >= 60 && secondScore >= 55 && (topScore - secondScore) < 20) {
-        personalityKey = sortedTraits.slice(0, 2).join("");
-      } else if (topScore >= 60) {
-        personalityKey = sortedTraits[0];
+        // Two-trait combination
+        const trait1 = sortedTraits[0][0][0]; // First letter of first trait
+        const trait2 = sortedTraits[1][0][0]; // First letter of second trait
+        
+        // Try both combinations (e.g., "DI" and "ID") and use whichever exists
+        const combo1 = trait1 + trait2;
+        const combo2 = trait2 + trait1;
+        
+        if (personalities[combo1]) {
+          personalityKey = combo1;
+        } else if (personalities[combo2]) {
+          personalityKey = combo2;
+        } else {
+          // Fall back to single dominant trait
+          personalityKey = trait1;
+        }
       } else {
-        personalityKey = sortedTraits[0];
+        // Single dominant trait
+        personalityKey = sortedTraits[0][0][0];
       }
 
       const personality = personalities[personalityKey] || personalities.D;
@@ -136,28 +151,86 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Get AI analysis
       let aiAnalysis = "";
       try {
+        // Build context about the user's responses
+        const responseSummary = responses.map(r => 
+          `Question: ${r.questionId.replace(/-/g, ' ')} | Answer: ${r.answerText} (${r.score} points to ${r.trait})`
+        ).join('\n');
+
         const completion = await openai.chat.completions.create({
           model: "gpt-5-mini",
           messages: [
             {
               role: "system",
-              content: "You are a career counselor providing personalized insights based on personality assessments. Provide encouraging, specific, and actionable guidance."
+              content: `You are an expert career counselor using the Culture Forward Assessment framework. This framework categorizes individuals into personality profiles based on DISC traits (Dominance, Influence, Steadiness, Conscientiousness).
+
+PERSONALITY PROFILES & COMPATIBLE ROLES:
+
+Pure Types:
+1. D (Dominant): "The Trailblazing Leader" - Assertive, results-oriented, enjoys challenges
+   - Compatible Companies: Tech startups, consulting firms, innovative companies
+   - Job Roles: Operations Manager, Business Development Manager, Entrepreneur, Project Manager
+   
+2. I (Influential): "The Charismatic Communicator" - Persuasive, sociable, thrives in collaboration
+   - Compatible Companies: Creative agencies, marketing firms, tech startups
+   - Job Roles: Marketing Specialist, HR Manager, Creative Director, Public Relations Manager, Customer Success Manager
+   
+3. S (Steady): "The Reliable Supporter" - Stable, consistent, great team player
+   - Compatible Companies: Non-profits, educational institutions, healthcare organizations
+   - Job Roles: Customer Service Manager, HR Specialist, Teacher, Social Worker, Healthcare Professional
+   
+4. C (Conscientious): "The Analytical Strategist" - Detail-oriented, analytical, values accuracy
+   - Compatible Companies: Financial institutions, tech companies, consulting firms
+   - Job Roles: Data Analyst, Financial Analyst, Software Engineer, Quality Assurance Specialist, Research Scientist
+
+Two-Type Combinations:
+- DI/ID: "The Dynamic Innovator" - Leads and inspires change (Roles: CEO, Product Manager, Business Development)
+- DS/SD: "The Grounded Pioneer" - Methodical progress driver (Roles: Operations Director, Program Manager)
+- DC/CD: "The Tactical Executive" - Strategic planner (Roles: Senior Manager, Strategy Consultant)
+- IS/SI: "The Engaging Motivator" - Uplifts team morale (Roles: HR Director, Team Lead, Community Manager)
+- IC/CI: "The Creative Persuader" - Crafts compelling narratives (Roles: Marketing Director, Content Strategist)
+- SC/CS: "The Dependable Facilitator" - Supports and refines processes (Roles: Project Coordinator, Quality Manager)
+
+IMPORTANT: When recommending careers, YOU MUST consider the individual's age, education level, and current role level interest. For example:
+- A 22-year-old with a bachelor's degree interested in entry-level tech roles should NOT be recommended CEO or executive positions, regardless of their D trait score
+- Instead, recommend appropriate entry-level roles like Program Coordinator, Junior Analyst, Associate positions
+- For mid-level professionals, recommend Manager, Senior positions
+- Only recommend Director/Executive roles to those explicitly interested in those levels
+
+Provide encouraging, specific, and actionable guidance that is REALISTIC and APPROPRIATE for their demographic profile.`
             },
             {
               role: "user",
-              content: `Based on this personality assessment:
-- Personality Type: ${personality.title} (${personalityKey})
-- Dominance: ${traitScores.Dominance}%
-- Influence: ${traitScores.Influence}%
-- Steadiness: ${traitScores.Steadiness}%
-- Conscientiousness: ${traitScores.Conscientiousness}%
-- Job Interest: ${assessment.jobInterest}
-- Role Level: ${assessment.roleLevel}
+              content: `Analyze this individual's career assessment:
 
-Provide 2-3 paragraphs of personalized career guidance and insights for ${assessment.name}.`
+USER PROFILE:
+- Name: ${assessment.name}
+- Age: ${assessment.age}
+- Education Level: ${assessment.educationLevel}
+- Job Interest: ${assessment.jobInterest}
+- Role Level Interest: ${assessment.roleLevel}
+
+PERSONALITY ASSESSMENT RESULTS:
+- Personality Type: ${personality.title} (${personalityKey})
+- DISC Scores:
+  * Dominance: ${traitScores.Dominance}%
+  * Influence: ${traitScores.Influence}%
+  * Steadiness: ${traitScores.Steadiness}%
+  * Conscientiousness: ${traitScores.Conscientiousness}%
+
+ASSESSMENT RESPONSES:
+${responseSummary}
+
+Based on their personality type, DISC scores, and most importantly their age (${assessment.age}), education (${assessment.educationLevel}), and role level interest (${assessment.roleLevel}), provide 2-3 paragraphs of personalized career guidance. 
+
+Recommend SPECIFIC job roles that are:
+1. Aligned with their personality type
+2. APPROPRIATE for their age and experience level (${assessment.roleLevel})
+3. Match their job interest area (${assessment.jobInterest})
+
+Be realistic - don't recommend C-suite roles to someone seeking entry-level positions, even if they have high D scores.`
             }
           ],
-          max_completion_tokens: 500
+          max_completion_tokens: 600
         });
 
         aiAnalysis = completion.choices[0]?.message?.content || "";
