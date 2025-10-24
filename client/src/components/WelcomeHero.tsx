@@ -21,7 +21,8 @@ export default function WelcomeHero({ onGetStarted }: WelcomeHeroProps) {
           <img 
             src={logoImage} 
             alt="CultureForward Logo" 
-            className="h-8 w-auto"
+            style={{ height: '50px' }}
+            className="w-auto"
             data-testid="img-hero-logo"
           />
         </div>
