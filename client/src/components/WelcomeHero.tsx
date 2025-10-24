@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import heroImage from "@assets/generated_images/Black_young_professionals_workplace_d9888eca.png";
+import logoImage from "@assets/icon and logo 1-3_1761333387427.png";
 
 interface WelcomeHeroProps {
   onGetStarted: () => void;
@@ -16,6 +17,14 @@ export default function WelcomeHero({ onGetStarted }: WelcomeHeroProps) {
       </div>
       
       <div className="relative z-10 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <div className="flex justify-center mb-8">
+          <img 
+            src={logoImage} 
+            alt="CultureForward Logo" 
+            className="h-16 sm:h-20 w-auto"
+            data-testid="img-hero-logo"
+          />
+        </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
           CultureForward Assessment
         </h1>
