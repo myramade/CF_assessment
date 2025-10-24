@@ -27,7 +27,7 @@ export default function WelcomeHero({ onGetStarted }: WelcomeHeroProps) {
           />
         </div>
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6">
-          CultureForward Assessment
+          Career Assessment
         </h1>
         <p className="text-xl sm:text-2xl text-white/90 mb-8 max-w-2xl mx-auto leading-relaxed">
           Discover your unique personality profile and get personalized career recommendations tailored to your strengths
