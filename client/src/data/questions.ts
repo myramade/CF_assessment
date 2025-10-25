@@ -227,6 +227,37 @@ export const questions: Question[] = [
   },
   {
     _id: "9",
+    question: "How do you approach learning and knowledge?",
+    answers: [
+      {
+        id: 1,
+        text: "I am curious and enjoy deep, independent research.",
+        trait: "Conscientiousness",
+        score: 3
+      },
+      {
+        id: 2,
+        text: "I like learning but prefer practical applications.",
+        trait: "Steadiness",
+        score: 2
+      },
+      {
+        id: 3,
+        text: "I learn best through social interactions and discussions.",
+        trait: "Influence",
+        score: 2
+      },
+      {
+        id: 4,
+        text: "I prefer hands-on experiences and real-world applications.",
+        trait: "Dominance",
+        score: 1
+      }
+    ],
+    order: 9
+  },
+  {
+    _id: "10",
     question: "How do you make decisions?",
     answers: [
       {
@@ -245,7 +276,7 @@ export const questions: Question[] = [
     order: 10
   },
   {
-    _id: "10",
+    _id: "11",
     question: "How do you typically approach challenges and problems?",
     answers: [
       {
@@ -276,7 +307,7 @@ export const questions: Question[] = [
     order: 11
   },
   {
-    _id: "11",
+    _id: "12",
     question: "How do you interact with others in a social setting?",
     answers: [
       {
@@ -307,7 +338,7 @@ export const questions: Question[] = [
     order: 12
   },
   {
-    _id: "12",
+    _id: "13",
     question: "How do you approach tasks and responsibilities?",
     answers: [
       {
@@ -338,7 +369,7 @@ export const questions: Question[] = [
     order: 13
   },
   {
-    _id: "13",
+    _id: "14",
     question: "How do you feel about helping others?",
     answers: [
       {
@@ -369,7 +400,7 @@ export const questions: Question[] = [
     order: 14
   },
   {
-    _id: "14",
+    _id: "15",
     question: "How do you manage your responsibilities?",
     answers: [
       {

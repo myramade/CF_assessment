@@ -1,0 +1,537 @@
+[{
+  "_id: {
+    "$oid": "66b16a067346defbe9fe386b"
+  },
+  "question": "How do you feel about trying new things?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I love exploring new ideas and experiences.",
+      "trait": "Openness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I am open to new experiences but prefer familiar routines.",
+      "trait": "Conscientiousness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am cautious about trying new things.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I prefer to stick to what I know.",
+      "trait": "Dominance",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 5
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe386a"
+  },
+  "question": "How do you approach your daily life?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "By planning and organizing tasks in advance.",
+      "trait": "Judging",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "By staying flexible and adapting as things come up.",
+      "trait": "Perceiving",
+      "score": 2
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 2
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3861"
+  },
+  "question": "How do you handle changes in your environment?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I adapt quickly and enjoy new experiences.",
+      "trait": "Dominance",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I prefer stability and consistency.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am flexible but need time to adjust.",
+      "trait": "Conscientiousness",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I feel stressed and anxious with sudden changes.",
+      "trait": "Influence",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 3
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe386d"
+  },
+  "question": "How do you interact in social situations?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I am outgoing and enjoy being around people.",
+      "trait": "Extraversion",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I am sociable but also need time alone.",
+      "trait": "Introversion",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am reserved and prefer smaller groups.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I am very introverted and prefer solitude.",
+      "trait": "Conscientiousness",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 6
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3860"
+  },
+  "question": "How do you interact with others in a social setting?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I am outgoing and enjoy being the center of attention.",
+      "trait": "Influence",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I am friendly and enjoy engaging in conversations.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am reserved and prefer listening to others.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I am cautious and prefer to observe before participating.",
+      "trait": "Conscientiousness",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 12
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3864"
+  },
+  "question": "How do you feel about helping others?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I love helping others and often put their needs before my own.",
+      "trait": "Steadiness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I enjoy helping but also need time for myself.",
+      "trait": "Conscientiousness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I help when necessary but prefer to focus on my own goals.",
+      "trait": "Dominance",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I rarely go out of my way to help others.",
+      "trait": "Influence",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 14
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3868"
+  },
+  "question": "How do you prefer to gather information?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "By focusing on concrete details and facts.",
+      "trait": "Sensing",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "By looking at the big picture and exploring possibilities.",
+      "trait": "Intuition",
+      "score": 2
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 1
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3865"
+  },
+  "question": "How do you measure your success?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "By achieving my goals and receiving recognition.",
+      "trait": "Dominance",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "By maintaining a balance between work and personal life.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "By the quality of my relationships and personal growth.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "By my ability to stay true to my values and beliefs.",
+      "trait": "Conscientiousness",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 8
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3869"
+  },
+  "question": "How do you make decisions?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "By analyzing logical consequences and facts.",
+      "trait": "Thinking",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "By considering personal values and the impact on others.",
+      "trait": "Feeling",
+      "score": 2
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 10
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3862"
+  },
+  "question": "How do you approach tasks and responsibilities?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I am detail-oriented and strive for perfection.",
+      "trait": "Conscientiousness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I am organized and follow a structured plan.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am spontaneous and prefer to go with the flow.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I am methodical and take my time to ensure accuracy.",
+      "trait": "Dominance",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 13
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe386c"
+  },
+  "question": "How do you manage your responsibilities?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I am very organized and reliable.",
+      "trait": "Conscientiousness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I am somewhat organized but can be flexible.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I am spontaneous and prefer not to plan too much.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I struggle with organization and prefer to go with the flow.",
+      "trait": "Dominance",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 15
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3863"
+  },
+  "question": "How important is it for you to adhere to rules and standards?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "Very important; I strive to be ethical and moral.",
+      "trait": "Conscientiousness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "Somewhat important; I try to follow rules but can be flexible.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "Not very important; I prefer to create my own rules.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "Not important at all; I believe in freedom and flexibility.",
+      "trait": "Dominance",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 7
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe385f"
+  },
+  "question": "How do you typically approach challenges and problems?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I take charge and make decisions quickly.",
+      "trait": "Dominance",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I prefer to collaborate and seek input from others.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I analyze the situation thoroughly before acting.",
+      "trait": "Conscientiousness",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I try to avoid conflict and maintain harmony.",
+      "trait": "Steadiness",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 11
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3867"
+  },
+  "question": "How do you recharge your energy?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "By spending time alone and reflecting.",
+      "trait": "Introversion",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "By socializing and engaging with others.",
+      "trait": "Extraversion",
+      "score": 2
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 4
+},
+{
+  "_id": {
+    "$oid": "66b16a067346defbe9fe3866"
+  },
+  "question": "How do you approach learning and knowledge?",
+  "answers": [
+    {
+      "id": 1,
+      "text": "I am curious and enjoy deep, independent research.",
+      "trait": "Conscientiousness",
+      "score": 3
+    },
+    {
+      "id": 2,
+      "text": "I like learning but prefer practical applications.",
+      "trait": "Steadiness",
+      "score": 2
+    },
+    {
+      "id": 3,
+      "text": "I learn best through social interactions and discussions.",
+      "trait": "Influence",
+      "score": 2
+    },
+    {
+      "id": 4,
+      "text": "I prefer hands-on experiences and real-world applications.",
+      "trait": "Dominance",
+      "score": 1
+    }
+  ],
+  "createdTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "updatedTime": {
+    "$date": "2024-08-06T00:12:58.641Z"
+  },
+  "order": 9
+}]
